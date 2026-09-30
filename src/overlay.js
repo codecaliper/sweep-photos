@@ -91,7 +91,7 @@ export class SweepOverlay {
     this.flinging = false;
     this.view = null;
     this.helpOpen = false;
-    this.wheel = { dx: 0, timer: 0, lockedUntil: 0 };
+    this.wheel = { dx: 0, last: -Infinity, timer: 0, lockedUntil: 0 };
 
     this.host = h("sweep-photos");
     Object.assign(this.host.style, { position: "fixed", inset: "0", zIndex: "2147483647", pointerEvents: "none" });
@@ -463,18 +463,22 @@ export class SweepOverlay {
     const card = this.stage.querySelector(".card.top");
     if (!card || this.flinging || event.timeStamp < this.wheel.lockedUntil) return;
     const scale = event.deltaMode === 1 ? 16 : 1;
+    // One gesture is judged by the events' own timestamps: a busy page can deliver them late,
+    // which a wall-clock timer would mistake for the end of the swipe.
+    if (event.timeStamp - this.wheel.last > WHEEL_IDLE) this.wheel.dx = 0;
+    this.wheel.last = event.timeStamp;
     this.wheel.dx -= event.deltaX * scale;
     clearTimeout(this.wheel.timer);
     if (Math.abs(this.wheel.dx) > card.offsetWidth * COMMIT_FRACTION) {
       const decision = this.wheel.dx > 0 ? "keep" : "bin";
-      this.wheel = { dx: 0, timer: 0, lockedUntil: event.timeStamp + WHEEL_COOLDOWN };
+      this.wheel = { dx: 0, last: -Infinity, timer: 0, lockedUntil: event.timeStamp + WHEEL_COOLDOWN };
       this.fling(decision);
       return;
     }
     card.classList.add("dragging");
     pose(card, this.wheel.dx);
+    // Only the spring-back is timed; the distance resets from timestamps above.
     this.wheel.timer = setTimeout(() => {
-      this.wheel.dx = 0;
       card.classList.remove("dragging");
       pose(card, 0);
     }, WHEEL_IDLE);
