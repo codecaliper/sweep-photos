@@ -1,0 +1,19 @@
+{
+  "name": "sweep-photos",
+  "version": "0.9.0",
+  "private": true,
+  "type": "module",
+  "description": "Chrome extension: swipe through Google Photos to keep, bin, archive or lock, plus a duplicate finder",
+  "license": "MIT",
+  "repository": "github:codecaliper/sweep-photos",
+  "scripts": {
+    "test": "node sweep.test.mjs",
+    "e2e": "cd e2e && node run.mjs",
+    "check": "node tools/check.mjs",
+    "package": "node tools/package.mjs",
+    "icons": "node tools/make-icons.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

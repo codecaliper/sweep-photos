@@ -1,0 +1,13 @@
+{
+  "name": "sweep-photos-e2e",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end tests for Sweep for Google Photos against a local mock of photos.google.com",
+  "scripts": {
+    "test": "node ../sweep.test.mjs && node run.mjs",
+    "e2e": "node run.mjs"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}
