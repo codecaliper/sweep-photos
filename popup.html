@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sweep</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <strong>Sweep</strong>
+    <span id="marked" class="muted"></span>
+  </header>
+
+  <section>
+    <h2>Dates</h2>
+    <div class="chips" id="presets">
+      <button type="button" data-preset="30d">Last 30 days</button>
+      <button type="button" data-preset="90d">Last 90 days</button>
+      <button type="button" data-preset="thisYear">This year</button>
+      <button type="button" data-preset="lastYear">Last year</button>
+      <button type="button" data-preset="all">All dates</button>
+    </div>
+    <label class="field">
+      <span>A month</span>
+      <input type="month" id="month" min="1900-01" max="2100-12">
+    </label>
+    <label class="field">
+      <span>A year</span>
+      <input type="number" id="year" min="1900" max="2100" placeholder="e.g. 2020">
+    </label>
+    <div class="fields">
+      <label class="field"><span>From</span><input type="date" id="from" min="1900-01-01" max="2100-12-31"></label>
+      <label class="field"><span>To</span><input type="date" id="to" min="1900-01-01" max="2100-12-31"></label>
+    </div>
+  </section>
+
+  <section>
+    <h2>Show</h2>
+    <div class="chips" id="media">
+      <button type="button" data-media="all">Photos &amp; videos</button>
+      <button type="button" data-media="photos">Photos</button>
+      <button type="button" data-media="videos">Videos</button>
+    </div>
+  </section>
+
+  <label class="check">
+    <input type="checkbox" id="useSearch" checked>
+    <span>Use Google Photos search to get there (faster for a month or a year)</span>
+  </label>
+
+  <p id="plan" class="plan"></p>
+  <p id="error" class="error" hidden></p>
+
+  <footer>
+    <button type="button" id="go" class="primary">Sweep these dates</button>
+    <button type="button" id="here" class="link">Sweep the page I'm on instead</button>
+  </footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

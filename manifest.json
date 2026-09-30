@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "Sweep for Google Photos",
+  "version": "0.9.0",
+  "description": "Swipe through Google Photos to keep, bin, archive or lock, and find duplicates. Nothing is moved until you confirm.",
+  "homepage_url": "https://github.com/codecaliper/sweep-photos",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Sweep: pick dates and start",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "toggle-sweep": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "Open or close Sweep on this Google Photos page"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabGroups"
+  ],
+  "host_permissions": [
+    "https://photos.google.com/*",
+    "https://*.googleusercontent.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://photos.google.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/*.js",
+        "src/*.css"
+      ],
+      "matches": [
+        "https://photos.google.com/*"
+      ]
+    }
+  ]
+}
