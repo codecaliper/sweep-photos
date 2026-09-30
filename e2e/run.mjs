@@ -843,10 +843,13 @@ const scenarios = {
     await toggleSweep(page);
     await until(page, (s) => s.top === id(0), "first card");
     await page.mouse.move(640, 450);
-    for (let i = 0; i < 12; i += 1) await page.mouse.wheel({ deltaX: 40 });
+    // A trackpad sends its events in one quick burst; awaiting each round trip can leave
+    // gaps longer than the gesture's idle timeout on a slow machine.
+    const swipe = (deltaX) => Promise.all(Array.from({ length: 12 }, () => page.mouse.wheel({ deltaX })));
+    await swipe(40);
     await until(page, (s) => s.top === id(1) && s.bin.includes("1"), "swipe left bins");
     await sleep(600);
-    for (let i = 0; i < 12; i += 1) await page.mouse.wheel({ deltaX: -40 });
+    await swipe(-40);
     await until(page, (s) => s.top === id(2) && s.bin.includes("1"), "swipe right keeps");
     await sleep(600);
     // A small nudge springs back.
